@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "959576308880",
+    "project_id": "prime-works-315315",
+    "storage_bucket": "prime-works-315315.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959576308880:android:3146afbd1c5b2cae2e6c15",
+        "android_client_info": {
+          "package_name": "com.example.to_do_list"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959576308880-vvrl94ka141hka3r396aa3a233hqfv09.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.to_do_list",
+            "certificate_hash": "7111f7e7af292c8cd4a9d1ed2fca8c17f72488aa"
+          }
+        },
+        {
+          "client_id": "959576308880-cbor3q2m4vjv6ubtlsek2h9qnt93r7t7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfoCQwieHv3HTCzKvmBaTc8pfSu2voy2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959576308880-cbor3q2m4vjv6ubtlsek2h9qnt93r7t7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
