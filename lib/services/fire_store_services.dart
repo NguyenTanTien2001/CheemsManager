@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '/models/quick_note_model.dart';
 import 'package:to_do_list/models/meta_user_model.dart';
 
 import '../models/comment_model.dart';
@@ -252,5 +253,55 @@ class FirestoreService {
         backgroundColor: AppColors.kWhiteBackground,
         textColor: AppColors.kText,
       );
+  }
+
+  Stream<List<QuickNoteModel>> quickNoteStream(String uid) {
+    return _firebaseFirestore
+        .collection('user')
+        .doc(uid)
+        .collection('quick_note')
+        .orderBy('time', descending: true)
+        .snapshots()
+        .map(
+          (list) => list.docs
+              .map((doc) => QuickNoteModel.fromFirestore(doc))
+              .toList(),
+        );
+  }
+
+  Future<bool> addQuickNote(String uid, QuickNoteModel quickNote) async {
+    await _firebaseFirestore
+        .collection('user')
+        .doc(uid)
+        .collection('quick_note')
+        .doc()
+        .set(quickNote.toFirestore())
+        .then((_) {
+      servicesResultPrint('Added quick note');
+
+      return true;
+    }).catchError((error) {
+      servicesResultPrint('Add quick note failed: $error');
+      return false;
+    });
+    return false;
+  }
+
+  Future<bool> updateQuickNote(
+      String uid, QuickNoteModel quickNoteModel) async {
+    await _firebaseFirestore
+        .collection('user')
+        .doc(uid)
+        .collection('quick_note')
+        .doc(quickNoteModel.id)
+        .set(quickNoteModel.toFirestore())
+        .then((value) {
+      servicesResultPrint("Quick note updated");
+      return true;
+    }).catchError((onError) {
+      servicesResultPrint("Failed to update quick note: $onError");
+      return false;
+    });
+    return false;
   }
 }

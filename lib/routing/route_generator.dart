@@ -13,6 +13,8 @@ import '/pages/splash/splash_page.dart';
 import '/pages/welcome/welcome_page.dart';
 import '../pages/auth/sign_in/sign_in_page.dart';
 import '../pages/auth/successful_screen.dart';
+import '../pages/new_check_list/new_check_list_page.dart';
+import '../pages/new_note/new_note_page.dart';
 import 'app_routes.dart';
 
 class RouteGenerator {
@@ -51,6 +53,10 @@ class RouteGenerator {
         return page(child: SuccessfulScreen());
       case AppRoutes.NEW_TASK:
         return page(child: NewTaskPage.instance());
+      case AppRoutes.NEW_NOTE:
+        return page(child: NewNotePage.instance());
+      case AppRoutes.NEW_CHECK_LIST:
+        return page(child: NewCheckListPage.instance());
       case AppRoutes.LIST_USER_FORM:
         return page(child: ListUserFormPage.instance());
       case AppRoutes.DETAIL_TASK:
