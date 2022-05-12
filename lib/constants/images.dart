@@ -3,7 +3,7 @@ class AppImages {
   static const _baseImageFolder = "assets/images";
 
   /// [Welcome]
-  static const imgLogo = "$_baseImageFolder/logo.png";
+  static const imgLogo = "$_baseImageFolder/CheemsTeamLogo1.png";
 
   /// [Splash]
   static const imgSplash = <String>[

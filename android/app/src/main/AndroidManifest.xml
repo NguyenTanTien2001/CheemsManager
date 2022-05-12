@@ -2,7 +2,7 @@
     package="com.example.to_do_list">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
-        android:label="to_do_list"
+        android:label="Cheem Teams"
         android:icon="@mipmap/ic_launcher">
 
         <activity

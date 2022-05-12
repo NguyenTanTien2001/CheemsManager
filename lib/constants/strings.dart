@@ -1,6 +1,6 @@
 class AppStrings {
   /// [Welcome]
-  static const String aking = 'aking';
+  static const String CheemsTeam = 'Cheems Team';
 
   /// [Splash]
   static const String getStarted = 'get_started';

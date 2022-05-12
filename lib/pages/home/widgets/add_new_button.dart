@@ -61,24 +61,6 @@ class AddNewButton extends StatelessWidget {
                 },
               ),
             ),
-            SimpleDialogOption(
-              padding: EdgeInsets.all(0),
-              child: CreateItem(
-                text: StringTranslateExtension(AppStrings.addQuickNote).tr(),
-                press: () {
-                  Get.offAndToNamed(AppRoutes.NEW_NOTE);
-                },
-              ),
-            ),
-            SimpleDialogOption(
-              padding: EdgeInsets.all(0),
-              child: CreateItem(
-                text: StringTranslateExtension(AppStrings.addCheckList).tr(),
-                press: () {
-                  Get.offAndToNamed(AppRoutes.NEW_CHECK_LIST);
-                },
-              ),
-            ),
           ],
         ),
       );

@@ -6,26 +6,11 @@ import 'package:to_do_list/models/meta_user_model.dart';
 import '../models/comment_model.dart';
 import '/constants/app_colors.dart';
 import '/models/project_model.dart';
-import '/models/quick_note_model.dart';
 import '/models/task_model.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firebaseFirestore;
   FirestoreService(this._firebaseFirestore);
-
-  Stream<List<QuickNoteModel>> quickNoteStream(String uid) {
-    return _firebaseFirestore
-        .collection('user')
-        .doc(uid)
-        .collection('quick_note')
-        .orderBy('time', descending: true)
-        .snapshots()
-        .map(
-          (list) => list.docs
-              .map((doc) => QuickNoteModel.fromFirestore(doc))
-              .toList(),
-        );
-  }
 
   Stream<List<ProjectModel>> projectStream(String uid) {
     return _firebaseFirestore
@@ -116,24 +101,6 @@ class FirestoreService {
     return doc.get().then((value) => ProjectModel.fromFirestore(value));
   }
 
-  Future<bool> addQuickNote(String uid, QuickNoteModel quickNote) async {
-    await _firebaseFirestore
-        .collection('user')
-        .doc(uid)
-        .collection('quick_note')
-        .doc()
-        .set(quickNote.toFirestore())
-        .then((_) {
-      servicesResultPrint('Added quick note');
-
-      return true;
-    }).catchError((error) {
-      servicesResultPrint('Add quick note failed: $error');
-      return false;
-    });
-    return false;
-  }
-
   Future<bool> deleteQuickNote(String uid, String id) async {
     await _firebaseFirestore
         .collection('user')
@@ -146,24 +113,6 @@ class FirestoreService {
       return true;
     }).catchError((error) {
       servicesResultPrint("Failed to delete quick note: $error");
-      return false;
-    });
-    return false;
-  }
-
-  Future<bool> updateQuickNote(
-      String uid, QuickNoteModel quickNoteModel) async {
-    await _firebaseFirestore
-        .collection('user')
-        .doc(uid)
-        .collection('quick_note')
-        .doc(quickNoteModel.id)
-        .set(quickNoteModel.toFirestore())
-        .then((value) {
-      servicesResultPrint("Quick note updated");
-      return true;
-    }).catchError((onError) {
-      servicesResultPrint("Failed to update quick note: $onError");
       return false;
     });
     return false;
