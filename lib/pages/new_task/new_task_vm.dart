@@ -16,10 +16,19 @@ class NewTaskViewModel extends BaseViewModel {
     }
   }
 
-  Future<String> newTask(TaskModel task, ProjectModel project) async {
+  Future<String> newTask(
+      TaskModel task, ProjectModel project, List<String> listToken) async {
     startRunning();
     // add task to database
     String taskID = await firestoreService.addTask(task);
+    // send notification to member
+    for (var user in listToken) {
+      await firestoreMessagingService.sendPushMessaging(
+        user,
+        "NEW TASK",
+        "New task ${task.title} been create in project ${project.name}",
+      );
+    }
     // add task to project
     await firestoreService.addTaskProject(project, taskID);
     endRunning();

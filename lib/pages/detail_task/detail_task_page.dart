@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:to_do_list/models/quick_note_model.dart';
+import 'package:to_do_list/routing/app_routes.dart';
+import 'package:to_do_list/services/fire_store_services.dart';
+import 'package:to_do_list/util/ui/common_widget/quick_note_card.dart';
+import '../edit_task/widgets/setting_menu.dart';
 import '/util/ui/common_widget/back_to_login.dart';
 import 'widgets/comment_button.dart';
 import 'widgets/comment_form.dart';
@@ -38,11 +44,13 @@ class DetailTaskPage extends StatefulWidget {
 }
 
 class DetailTaskState extends BaseState<DetailTaskPage, DetailTaskViewModel> {
+  bool isFullQuickNote = false;
   bool showComment = false;
   final formKey = GlobalKey<FormState>();
   TextEditingController commentController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
+  late String taskId;
 
   XFile? pickerFile;
 
@@ -60,8 +68,9 @@ class DetailTaskState extends BaseState<DetailTaskPage, DetailTaskViewModel> {
   void initState() {
     super.initState();
     getVm().loadTask(Get.arguments);
+    getVm().loadNote(Get.arguments);
     getVm().loadComment(Get.arguments);
-
+    taskId = Get.arguments;
     getVm().bsShowComment.listen((value) {
       setState(() {
         showComment = value;
@@ -104,6 +113,8 @@ class DetailTaskState extends BaseState<DetailTaskPage, DetailTaskViewModel> {
         buildDueDate(task.dueDate),
         buildLine(),
         buildDescription(task.description, task.desUrl),
+        buildLine(),
+        buildNote(task.id),
         buildLine(),
         buildListMember(task.listMember),
         buildLine(),
@@ -160,6 +171,150 @@ class DetailTaskState extends BaseState<DetailTaskPage, DetailTaskViewModel> {
         des: des,
         url: url,
       );
+
+  Widget buildNote(String taskId) {
+    return Container(
+      color: AppColors.kWhiteBackground,
+      //height: screenHeight,
+      width: screenWidth,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              SizedBox(width: 15.w),
+              SizedBox(
+                width: 18,
+                height: 18,
+                child: SvgPicture.asset(
+                  AppImages.quickIcon,
+                ),
+              ),
+              SizedBox(width: 23.w),
+              Expanded(
+                child: AppStrings.quickNotes
+                    .plain()
+                    .fSize(16)
+                    .color(AppColors.kGrayTextA)
+                    .b()
+                    .tr(),
+              ),
+              ButtonTheme(
+                minWidth: 18,
+                height: 18,
+                child: IconButton(
+                    onPressed: () => addNewnote(taskId), icon: Icon(Icons.add)),
+              ),
+              SizedBox(width: 15.w)
+            ]),
+            SizedBox(height: 32.w),
+            StreamBuilder<List<QuickNoteModel>?>(
+                stream: getVm().bsListQuickNote,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading");
+                  }
+
+                  List<QuickNoteModel> data = snapshot.data!;
+                  return Column(
+                    children: [
+                      for (int i = 0; i < data.length; i++)
+                        QuickNoteCard(
+                          note: data[i],
+                          color: AppColors.kColorNote[data[i].indexColor],
+                          successfulPress: () =>
+                              getVm().successfultaskNote(data[i]),
+                          checkedPress: getVm().checkedNote,
+                          deletePress: () {
+                            getVm().deleteNote(data[i]);
+                          },
+                        )
+                    ],
+                  );
+                }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildNoneNote() =>
+      'You are not have a note, create a note to continue'.desc().inkTap(
+        onTap: () {
+          Get.toNamed(AppRoutes.NEW_NOTE);
+        },
+      );
+
+  AppBar appBar() => AppBar();
+
+  void addNewnote(String taskId) async {
+    await showDialog(
+        context: this.context,
+        builder: (context) {
+          return Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: 228.w,
+              height: 88.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5.r),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    height: 44.w,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: AppStrings.addQuickNote
+                              .plain()
+                              .fSize(17)
+                              .lines(1)
+                              .b()
+                              .tr(),
+                        ),
+                      ],
+                    ),
+                  ).pad(0, 16).inkTap(
+                        onTap: () {
+                          Get.offAndToNamed(AppRoutes.NEW_NOTE,
+                              arguments: taskId);
+                        },
+                        borderRadius: BorderRadius.circular(5.r),
+                      ),
+                  Container(
+                    height: 44.w,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: AppStrings.addCheckList
+                              .plain()
+                              .fSize(17)
+                              .lines(1)
+                              .b()
+                              .tr(),
+                        ),
+                      ],
+                    ),
+                  ).pad(0, 16).inkTap(
+                        onTap: () {
+                          Get.offAndToNamed(AppRoutes.NEW_CHECK_LIST,
+                              arguments: taskId);
+                        },
+                        borderRadius: BorderRadius.circular(5.r),
+                      )
+                ],
+              ),
+            ),
+          ).pad(0, 14, appBar().preferredSize.height, 0);
+        });
+  }
 
   Widget buildListMember(List<String> listId) => ListMember(
         futureListMember: getVm().getAllUser(listId),
@@ -264,14 +419,28 @@ class DetailTaskState extends BaseState<DetailTaskPage, DetailTaskViewModel> {
           .actions(
         [
           IconButton(
-            onPressed: () {
-              Get.back();
-            },
+            onPressed: () async => await showDialog(
+                context: this.context,
+                builder: (context) {
+                  return SettingMenu(
+                    appBarHeight: appBar().preferredSize.height,
+                    taskId: this.taskId,
+                    acceptDelete: deleteTask,
+                  );
+                }),
             icon: Icon(Icons.settings),
             color: Colors.black,
           ),
         ],
       ).bAppBar();
+
+  void deleteTask() {
+    TaskModel? deletedTask = getVm().bsTask.value;
+    if (deletedTask != null) {
+      getVm().deleteTask(deletedTask);
+    }
+    Get.offAllNamed(AppRoutes.HOME);
+  }
 
   @override
   DetailTaskViewModel getVm() => widget.watch(viewModelProvider).state;

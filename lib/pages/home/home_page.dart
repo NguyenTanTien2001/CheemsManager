@@ -1,4 +1,7 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:to_do_list/models/project_model.dart';
 import 'package:to_do_list/util/ui/common_widget/back_to_login.dart';
@@ -36,6 +39,9 @@ class HomeState extends BaseState<HomePage, HomeViewModel> {
   PageController tabController = PageController();
   ProjectModel? projectMode;
 
+  late AndroidNotificationChannel channel;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
   void logOutClick() {
     getVm().logOut();
   }
@@ -45,12 +51,94 @@ class HomeState extends BaseState<HomePage, HomeViewModel> {
   @override
   void initState() {
     super.initState();
+
+    //notification
+    getVm().initMessingToken();
+    requestMessagingPermission();
+    loadFCM();
+    listenFCM();
+    //tab widget
     tabWidget = [
       MyTaskTab.instance(mode: projectMode, closeProjectMode: closeProjectMode),
       MenuTab.instance(pressMode: setProjectMode),
       QuickTab.instance(),
       ProfileTab.instance(),
     ];
+  }
+
+  requestMessagingPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true);
+    print("User granted permission: ${settings.authorizationStatus}");
+  }
+
+  listenFCM() async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+                android: AndroidNotificationDetails(channel.id, channel.name,
+                    channelDescription: channel.description,
+                    color: Colors.blue,
+                    playSound: true,
+                    icon: '@mipmap/ic_launcher')));
+      }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenApp event was public');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                  title: Text(notification.title!),
+                  content: SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [Text(notification.body!)]),
+                  ));
+            });
+      }
+    });
+  }
+
+  loadFCM() async {
+    if (!kIsWeb) {
+      channel = const AndroidNotificationChannel(
+          "high_important_channel", //id
+          "high important notification", //title
+          description:
+              "this channel is used for important notification.", //description
+          importance: Importance.high,
+          enableVibration: true,
+          playSound: true);
+
+      flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
   }
 
   void setProjectMode(ProjectModel value) async {

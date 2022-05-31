@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '/models/quick_note_model.dart';
 import 'package:to_do_list/models/meta_user_model.dart';
@@ -70,6 +69,14 @@ class FirestoreService {
         .then((doc) => MetaUserModel.fromFirestore(doc));
   }
 
+  Future<ProjectModel> getProjectById(String id) {
+    return _firebaseFirestore
+        .collection('project')
+        .doc(id)
+        .get()
+        .then((doc) => ProjectModel.fromFirestore(doc));
+  }
+
   Stream<ProjectModel> projectStreamById(String id) {
     return _firebaseFirestore
         .collection('project')
@@ -134,6 +141,23 @@ class FirestoreService {
       return true;
     }).catchError((error) {
       servicesResultPrint('Add task to project failed: $error');
+      return false;
+    });
+    return true;
+  }
+
+  Future<bool> deleteTaskProject(
+      ProjectModel projectModel, String taskID) async {
+    List<String> list = projectModel.listTask;
+    list.remove(taskID);
+
+    await _firebaseFirestore.collection('project').doc(projectModel.id).update({
+      "list_task": list,
+    }).then((value) {
+      servicesResultPrint('Delete task to project');
+      return true;
+    }).catchError((error) {
+      servicesResultPrint('Delete task to project failed: $error');
       return false;
     });
     return true;
@@ -293,6 +317,72 @@ class FirestoreService {
         .collection('user')
         .doc(uid)
         .collection('quick_note')
+        .doc(quickNoteModel.id)
+        .set(quickNoteModel.toFirestore())
+        .then((value) {
+      servicesResultPrint("Quick note updated");
+      return true;
+    }).catchError((onError) {
+      servicesResultPrint("Failed to update quick note: $onError");
+      return false;
+    });
+    return false;
+  }
+
+  Stream<List<QuickNoteModel>> taskNoteStream(String uid) {
+    return _firebaseFirestore
+        .collection('task')
+        .doc(uid)
+        .collection('task_note')
+        .orderBy('time', descending: true)
+        .snapshots()
+        .map(
+          (list) => list.docs
+              .map((doc) => QuickNoteModel.fromFirestore(doc))
+              .toList(),
+        );
+  }
+
+  Future<bool> addTaskNote(String uid, QuickNoteModel quickNote) async {
+    await _firebaseFirestore
+        .collection('task')
+        .doc(uid)
+        .collection('task_note')
+        .doc()
+        .set(quickNote.toFirestore())
+        .then((_) {
+      servicesResultPrint('Added quick note');
+
+      return true;
+    }).catchError((error) {
+      servicesResultPrint('Add quick note failed: $error');
+      return false;
+    });
+    return false;
+  }
+
+  Future<bool> deleteTaskNote(String uid, String id) async {
+    await _firebaseFirestore
+        .collection('task')
+        .doc(uid)
+        .collection('task_note')
+        .doc(id)
+        .delete()
+        .then((value) {
+      servicesResultPrint("Quick note Deleted");
+      return true;
+    }).catchError((error) {
+      servicesResultPrint("Failed to delete quick note: $error");
+      return false;
+    });
+    return false;
+  }
+
+  Future<bool> updateTaskNote(String uid, QuickNoteModel quickNoteModel) async {
+    await _firebaseFirestore
+        .collection('task')
+        .doc(uid)
+        .collection('task_note')
         .doc(quickNoteModel.id)
         .set(quickNoteModel.toFirestore())
         .then((value) {

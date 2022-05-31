@@ -8,6 +8,7 @@ import 'package:to_do_list/pages/home/home_page.dart';
 import 'package:to_do_list/pages/list_user_form/list_user_form_page.dart';
 import 'package:to_do_list/pages/new_task/new_task_page.dart';
 
+import '../pages/edit_task/edit_task_page.dart';
 import '/pages/auth/sign_up/sign_up_page.dart';
 import '/pages/splash/splash_page.dart';
 import '/pages/welcome/welcome_page.dart';
@@ -61,6 +62,8 @@ class RouteGenerator {
         return page(child: ListUserFormPage.instance());
       case AppRoutes.DETAIL_TASK:
         return page(child: DetailTaskPage.instance());
+      case AppRoutes.EDIT_TASK:
+        return page(child: EditTaskPage.instance());
       default:
         throw RouteException("Route not found");
     }

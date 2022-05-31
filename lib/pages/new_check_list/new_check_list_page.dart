@@ -187,14 +187,16 @@ class NewCheckListState
         _list.add(new NoteModel(
             id: i, text: _listItemController[i].text, check: false));
       }
-      getVm().newNote(
-        new QuickNoteModel(
-          content: _titleController.text,
-          indexColor: indexChooseColor,
-          time: DateTime.now(),
-          listNote: _list,
-        ),
+      QuickNoteModel quickNote = new QuickNoteModel(
+        content: _titleController.text,
+        indexColor: indexChooseColor,
+        time: DateTime.now(),
+        listNote: _list,
       );
+      if (Get.arguments == null)
+        getVm().newQuickNote(quickNote);
+      else
+        getVm().newTaskkNote(quickNote, Get.arguments);
       Get.back();
     }
   }

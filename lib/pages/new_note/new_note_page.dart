@@ -142,7 +142,10 @@ class NewNoteState extends BaseState<NewNotePage, NewNoteViewModel> {
               indexColor: indexChooseColor,
               time: DateTime.now(),
             );
-            getVm().newNote(quickNote);
+            if (Get.arguments == null)
+              getVm().newQuickNote(quickNote);
+            else
+              getVm().newTaskNote(quickNote, Get.arguments);
             Get.back();
           }
         },
