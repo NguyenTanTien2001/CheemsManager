@@ -67,6 +67,7 @@ class MenuState extends BaseState<MenuTab, MenuViewModel> {
                 ProjectCard(
                   project: data[i],
                   press: widget.pressMode,
+                  deletePress: getVm().deleteProject,
                 ),
               AddProjectButton(
                 press: getVm().addProject,

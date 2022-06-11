@@ -22,6 +22,13 @@ class MenuViewModel extends BaseViewModel {
     firestoreService.addProject(temp);
   }
 
+  void deleteProject(ProjectModel project) {
+    firestoreService.deleteProject(project);
+    for (var task in project.listTask) {
+      firestoreService.deleteTask(task);
+    }
+  }
+
   @override
   void dispose() {
     bsProject.close();

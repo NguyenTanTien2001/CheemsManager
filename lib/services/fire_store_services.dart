@@ -122,6 +122,18 @@ class FirestoreService {
     _firebaseFirestore.collection('project').doc().set(project.toFirestore());
   }
 
+  void deleteProject(ProjectModel project) {
+    _firebaseFirestore
+        .collection('project')
+        .doc(project.id)
+        .delete()
+        .then((value) {
+      servicesResultPrint("Project Deleted");
+    }).catchError((error) {
+      servicesResultPrint("Failed to delete project: $error");
+    });
+  }
+
   Future<bool> addTaskProject(ProjectModel projectModel, String taskID) async {
     List<String> list = projectModel.listTask;
     list.add(taskID);

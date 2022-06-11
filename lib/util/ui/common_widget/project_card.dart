@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/constants/app_colors.dart';
+import 'package:to_do_list/constants/constants.dart';
 import 'package:to_do_list/models/project_model.dart';
 import 'package:to_do_list/util/extension/dimens.dart';
 import 'package:to_do_list/util/extension/widget_extension.dart';
@@ -9,10 +10,12 @@ class ProjectCard extends StatelessWidget {
     Key? key,
     required this.project,
     required this.press,
+    required this.deletePress,
   }) : super(key: key);
 
   final ProjectModel project;
   final Function press;
+  final Function deletePress;
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +38,33 @@ class ProjectCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 26,
-              height: 26,
-              decoration: BoxDecoration(
-                  color:
-                      AppColors.kColorNote[project.indexColor].withOpacity(.3),
-                  shape: BoxShape.circle),
-              child: Center(
-                child: Container(
-                  width: 14,
-                  height: 14,
+            Row(
+              children: [
+                Container(
+                  width: 26,
+                  height: 26,
                   decoration: BoxDecoration(
-                      color: AppColors.kColorNote[project.indexColor],
+                      color: AppColors.kColorNote[project.indexColor]
+                          .withOpacity(.3),
                       shape: BoxShape.circle),
+                  child: Center(
+                    child: Container(
+                      width: 14,
+                      height: 14,
+                      decoration: BoxDecoration(
+                          color: AppColors.kColorNote[project.indexColor],
+                          shape: BoxShape.circle),
+                    ),
+                  ),
                 ),
-              ),
+                Spacer(),
+                Icon(
+                  Icons.delete,
+                  color: Colors.redAccent,
+                ).inkTap(
+                    onTap: () => deletePress(project),
+                    borderRadius: BorderRadius.circular(5)),
+              ],
             ),
             Spacer(),
             Text(
