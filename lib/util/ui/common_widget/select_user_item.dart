@@ -28,7 +28,7 @@ class SelectUserItem extends StatelessWidget {
           iconSize: 30,
         ),
         CustomAvatarLoadingImage(
-          url: userModel.url!,
+          url: userModel.url ?? '',
           imageSize: 40,
         ),
         SizedBox(width: 10.w),

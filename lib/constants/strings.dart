@@ -92,9 +92,13 @@ class AppStrings {
   static const String addQuickNote = 'add_quick_note';
   static const String addCheckList = 'add_check_list';
 
-  /// [Home] [Add Button] [New Task]
+  /// [Home] [Add Button] [New Task] [Edit Task]
   static const String newTask = 'new_task';
+  static const String editTask = 'edit_task';
   static const String in_ = 'in';
+  static const String confirmDelete = 'confirm_delete';
+  static const String yes = 'yes';
+  static const String no = 'no';
   // title
   // description
   // dueDate

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_do_list/main.dart';
 import 'package:to_do_list/pages/splash/splash_page.dart';
 import 'package:to_do_list/util/extension/dimens.dart';
 

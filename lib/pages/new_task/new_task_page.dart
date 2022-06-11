@@ -194,9 +194,11 @@ class NewTaskState extends BaseState<NewTaskPage, NewTaskViewModel> {
 
   void addTaskClick() async {
     List<String> list = [];
+    List<String> listToken = [];
 
     for (var userDate in selectUsers) {
       list.add(userDate.uid);
+      if (userDate.token != null) listToken.add(userDate.token!);
     }
 
     if (formKey.currentState!.validate() &&
@@ -214,7 +216,7 @@ class NewTaskState extends BaseState<NewTaskPage, NewTaskViewModel> {
         dueDate: dueDateValue!,
         listMember: list,
       );
-      String taskId = await getVm().newTask(task, dropValue!);
+      String taskId = await getVm().newTask(task, dropValue!, listToken);
       if (pickerFile != null) getVm().uploadDesTask(taskId, pickerFile!.path);
       Get.back();
     }
