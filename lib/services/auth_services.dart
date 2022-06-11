@@ -75,9 +75,8 @@ class AuthenticationService {
       await _firebaseAuth.sendPasswordResetEmail(
         email: email,
         actionCodeSettings: ActionCodeSettings(
-          url: 'https://todo6999.page.link',
+          url: 'https://CheemsTeams.page.link/ResetPass',
           androidPackageName: 'com.example.to_do_list',
-          dynamicLinkDomain: 'todo6999.page.link',
           androidInstallApp: true,
           handleCodeInApp: true,
         ),
@@ -86,6 +85,7 @@ class AuthenticationService {
       return ForgotPasswordStatus.successful;
     } on FirebaseAuthException catch (e) {
       print(e.code);
+      print(e.message);
       switch (e.code) {
         case 'invalid-email':
           servicesResultPrint('Invalid email');

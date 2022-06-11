@@ -38,4 +38,7 @@ abstract class AppRoutes {
   static const DETAIL_TASK = '/detail_task';
 
   static const LIST_USER_FORM = '/list_user_form';
+
+  //detail_task
+  static const EDIT_TASK = '/edit_task';
 }

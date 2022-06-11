@@ -1,3 +1,4 @@
+import '../../models/quick_note_model.dart';
 import '/models/comment_model.dart';
 import '/models/project_model.dart';
 
@@ -10,8 +11,35 @@ class DetailTaskViewModel extends BaseViewModel {
   BehaviorSubject<List<CommentModel>?> bsComment =
       BehaviorSubject<List<CommentModel>?>();
   BehaviorSubject<bool> bsShowComment = BehaviorSubject<bool>.seeded(true);
-
+  BehaviorSubject<List<QuickNoteModel>?> bsListQuickNote =
+      BehaviorSubject<List<QuickNoteModel>>();
   DetailTaskViewModel(ref) : super(ref);
+
+  void loadNote(String taskId) {
+    firestoreService.taskNoteStream(taskId).listen((event) {
+      bsListQuickNote.add(event);
+      print(event.length);
+    });
+  }
+
+  void successfultaskNote(QuickNoteModel quickNoteModel) {
+    // update to local
+    quickNoteModel.isSuccessful = true;
+    // update to network
+    firestoreService.updateTaskNote(user!.uid, quickNoteModel);
+  }
+
+  void checkedNote(QuickNoteModel quickNoteModel, int idNote) {
+    // check note
+    quickNoteModel.listNote[idNote].check = true;
+    // update note to network
+    firestoreService.updateTaskNote(user!.uid, quickNoteModel);
+  }
+
+  void deleteNote(QuickNoteModel quickNoteModel) async {
+    // delete note in network
+    await firestoreService.deleteTaskNote(user!.uid, quickNoteModel.id);
+  }
 
   void loadTask(String taskId) {
     firestoreService.taskStreamById(taskId).listen((event) {
@@ -51,6 +79,25 @@ class DetailTaskViewModel extends BaseViewModel {
     endRunning();
   }
 
+  void deleteTask(TaskModel deleTask) async {
+    startRunning();
+    firestoreService.getProjectById(deleTask.idProject).then((value) {
+      //delete task from firebase
+      firestoreService.deleteTask(deleTask.id);
+      //send notitfication to members
+      for (var mem in deleTask.listMember) {
+        firestoreService.getUserById(mem).then((user) => {
+              if (user.token != null)
+                firestoreMessagingService.sendPushMessaging(user.token!,
+                    "TASK DELETE", "Task ${deleTask.title} has been delete")
+            });
+      }
+      //delete task from project task list
+      firestoreService.deleteTaskProject(value, deleTask.id);
+    });
+    endRunning();
+  }
+
   void setShowComment(bool value) {
     this.bsShowComment.add(value);
   }
@@ -77,6 +124,7 @@ class DetailTaskViewModel extends BaseViewModel {
     bsTask.close();
     bsShowComment.close();
     bsComment.close();
+    bsListQuickNote.close();
     super.dispose();
   }
 }
