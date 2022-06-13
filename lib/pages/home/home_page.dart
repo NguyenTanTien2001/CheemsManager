@@ -92,8 +92,8 @@ class HomeState extends BaseState<HomePage, HomeViewModel> {
                 android: AndroidNotificationDetails(channel.id, channel.name,
                     channelDescription: channel.description,
                     color: Colors.blue,
-                    playSound: true,
-                    icon: '@mipmap/ic_launcher')));
+                    playSound: false,
+                    icon: '@mipmap/launcher_icon')));
       }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {

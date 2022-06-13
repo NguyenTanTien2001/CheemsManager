@@ -26,12 +26,16 @@ class EditTaskViewModel extends BaseViewModel {
       bsTask.add(event);
       List<MetaUserModel> listMem =
           bsListMember.hasValue ? bsListMember.value! : [];
-      for (var mem in bsTask.value!.listMember) {
-        firestoreService.userStreamById(mem).listen((event) {
-          listMem.add(event);
-          print(listMem.last);
-          bsListMember.add(listMem);
-        });
+      if (bsTask.value!.listMember.length > 0) {
+        for (var mem in bsTask.value!.listMember) {
+          firestoreService.userStreamById(mem).listen((event) {
+            listMem.add(event);
+            print("list mem: $listMem");
+            bsListMember.add(listMem);
+          });
+        }
+      } else {
+        bsListMember.add(listMem);
       }
     });
   }
@@ -91,7 +95,7 @@ class EditTaskViewModel extends BaseViewModel {
               if (user.token != null)
                 await firestoreMessagingService.sendPushMessaging(
                     user.token!,
-                    "OUT OF TASK",
+                    "YOU HAS BEEN KICK",
                     "you has been remove from task ${task.title}")
             });
       }
@@ -107,7 +111,7 @@ class EditTaskViewModel extends BaseViewModel {
               if (user.token != null)
                 await firestoreMessagingService.sendPushMessaging(
                     user.token!,
-                    "TASK MEMBER ADD",
+                    "TASK MEMBER CHANGE",
                     "members of task ${task.title} has been change")
             });
       }

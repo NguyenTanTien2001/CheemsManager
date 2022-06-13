@@ -38,7 +38,7 @@ class EditTaskState extends BaseState<EditTaskPage, EditTaskViewModel> {
   final formKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  List<MetaUserModel> selectUsers = [];
+  List<MetaUserModel>? selectUsers = null;
 
   ProjectModel? oldProject = null;
   List<String>? oldMemberList;
@@ -237,8 +237,8 @@ class EditTaskState extends BaseState<EditTaskPage, EditTaskViewModel> {
         }
 
         List<MetaUserModel> data = snapshot.data!;
-        if (selectUsers.isEmpty) selectUsers = data;
-        return MemberForm(listUser: selectUsers, press: selectListUser);
+        if (selectUsers == null) selectUsers = data;
+        return MemberForm(listUser: selectUsers!, press: selectListUser);
       },
     );
   }
@@ -246,8 +246,8 @@ class EditTaskState extends BaseState<EditTaskPage, EditTaskViewModel> {
   void editTaskClick(TaskModel oldtask) async {
     List<String> list = [];
 
-    for (var userDate in selectUsers) {
-      list.add(userDate.uid);
+    for (var user in selectUsers!) {
+      list.add(user.uid);
     }
 
     if (formKey.currentState!.validate() &&

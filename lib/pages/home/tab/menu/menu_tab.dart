@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '/constants/constants.dart';
@@ -65,10 +66,26 @@ class MenuState extends BaseState<MenuTab, MenuViewModel> {
               ),
               for (int i = 0; i < data.length; i++)
                 ProjectCard(
-                  project: data[i],
-                  press: widget.pressMode,
-                  deletePress: getVm().deleteProject,
-                ),
+                    project: data[i],
+                    press: widget.pressMode,
+                    deletePress: (project) async => await showDialog(
+                        context: this.context,
+                        builder: (_) => CupertinoAlertDialog(
+                              title: Text(AppStrings.confirmDelete).tr(),
+                              actions: [
+                                CupertinoDialogAction(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text(AppStrings.no).tr()),
+                                CupertinoDialogAction(
+                                    onPressed: () => {
+                                          getVm().deleteProject(project),
+                                          Get.back()
+                                        },
+                                    child: Text(AppStrings.yes).tr())
+                              ],
+                            ))),
               AddProjectButton(
                 press: getVm().addProject,
               )
