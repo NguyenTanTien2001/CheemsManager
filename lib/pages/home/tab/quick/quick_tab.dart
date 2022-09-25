@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:to_do_list/constants/constants.dart';
 
 import '/base/base_state.dart';
 import '/constants/app_colors.dart';
@@ -87,7 +88,8 @@ class QuickState extends BaseState<QuickTab, QuickViewModel> {
     );
   }
 
-  AppBar buildAppBar() => 'Quick Notes'
+  AppBar buildAppBar() => StringTranslateExtension(AppStrings.quickNotes)
+          .tr()
           .plainAppBar(color: AppColors.kText)
           .backgroundColor(Colors.white)
           .actions(

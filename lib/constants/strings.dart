@@ -6,7 +6,7 @@ class AppStrings {
   static const String getStarted = 'get_started';
   static const String logIn = 'login';
   static const List<String> splashTitle = [
-    'welcome_to_aking',
+    'welcome_to_cheems',
     'work_happens',
     'tasks_and_assign',
   ];
@@ -165,7 +165,7 @@ class AppStrings {
   static const String deleteTask = 'delete_task';
 
   /// [Home] [Menu]
-  static const String projects = 'Projects';
+  static const String projects = 'projects';
 
   /// [Home] [Menu] [Add Button]
   static const String title = 'Title';
@@ -177,6 +177,9 @@ class AppStrings {
   /// [Home] [Profile]
   static const String profiles = 'profiles';
   static const String createTasks = 'create_tasks';
+  static const String signOut = 'sign_out';
+  static const String gallery = 'gallery';
+  static const String camera = 'camera';
   // completedTasks
   static const String events = 'events';
   static const String toDoTask = 'to_do_task';

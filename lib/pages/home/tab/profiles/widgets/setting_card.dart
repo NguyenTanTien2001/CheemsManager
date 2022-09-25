@@ -116,7 +116,8 @@ class _SettingCardState extends State<SettingCard> {
             Row(
               children: [
                 Icon(Icons.image),
-                'Gallery'
+                StringTranslateExtension(AppStrings.gallery)
+                    .tr()
                     .plain()
                     .fSize(14)
                     .weight(FontWeight.w500)
@@ -133,7 +134,13 @@ class _SettingCardState extends State<SettingCard> {
             Row(
               children: [
                 Icon(Icons.camera_alt),
-                'Camera'.plain().fSize(14).weight(FontWeight.w500).b().pad(2, 5)
+                StringTranslateExtension(AppStrings.camera)
+                    .tr()
+                    .plain()
+                    .fSize(14)
+                    .weight(FontWeight.w500)
+                    .b()
+                    .pad(2, 5)
               ],
             ).inkTap(
               onTap: () {
@@ -152,7 +159,12 @@ class _SettingCardState extends State<SettingCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(Icons.logout_outlined).pad(0, 15, 0),
-        'Sign Out'.plain().fSize(18).weight(FontWeight.w600).b(),
+        StringTranslateExtension(AppStrings.signOut)
+            .tr()
+            .plain()
+            .fSize(18)
+            .weight(FontWeight.w600)
+            .b(),
       ],
     ).pad(15, 0, 10, 10).inkTap(
           onTap: widget.pressSignOut,

@@ -5,13 +5,14 @@
   "aking": "aking",
   "get_started": "Bắt đầu",
   "login": "Đăng nhập",
-  "welcome_to_aking": "Chào mừng bạn đến với aking",
+  "welcome_to_cheems": "Chào mừng bạn đến với Cheems",
   "whats_going_to_happen_tomorrow?": "bạn có công việc gì vào ngày mai?",
   "work_happens": "Khi có việc",
   "get_notified_when_work_happens": "nhận lời nhắc khi bạn có việc mới.",
   "tasks_and_assign": "phân công công việc tiện lợi",
   "task_and_assign_them_to_colleagues":"nhận task và phân chia cho đồng nghiệp.",
-  "sign_in": "Đăng kí",
+  "sign_in": "Đăng nhập",
+  "sign_out": "Đăng xuất",
   "please_enter_a_email_address":"Nhập vào địa chỉ email",
   "username": "Email",
   "enter_your_username": "Nhập email tài khoản bạn",
@@ -98,7 +99,7 @@
   "home": "Trang chủ",
   "meet": "Họp mặt",
   "my_task": "Công việc của tôi",
-  "menu": "menu",
+  "menu": "Dự án",
   "quick": "Lời nhắc",
   "quick_notes": "Lời nhắc",
   "home_work_today": "Công việc hôm nay",
@@ -117,6 +118,10 @@
   "please_enter_your_text": "xin điền vào đây",
   "back_to_login" : "Bạn chưa đăng nhập. Quay về trang đăng nhập",
   "Language" : "Ngôn ngữ",
-  "Change_avatar" : "Đổi ảnh đại diện"
-
+  "Change_avatar" : "Đổi ảnh đại diện",
+  "gallery": "Thư viện",
+  "camera": "Máy ảnh",
+  "To_do_Tasks": "Công việc",
+  "Check_Lists": "Danh mục",
+  "Quick_Notes": "Lời nhắc"
 }
