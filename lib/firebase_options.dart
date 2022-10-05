@@ -29,6 +29,16 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -60,7 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '959576308880',
     projectId: 'prime-works-315315',
     storageBucket: 'prime-works-315315.appspot.com',
-    androidClientId: '959576308880-vvrl94ka141hka3r396aa3a233hqfv09.apps.googleusercontent.com',
+    androidClientId: '959576308880-ro33f6bq7oas4br6hjn2mpbhgv4l865r.apps.googleusercontent.com',
     iosClientId: '959576308880-r5n2lq4hnnulgr7ucjs1kt8dfbcd4tmo.apps.googleusercontent.com',
     iosBundleId: 'com.example.toDoList',
   );

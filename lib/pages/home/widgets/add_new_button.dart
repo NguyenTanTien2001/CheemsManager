@@ -105,7 +105,7 @@ class CreateItem extends StatelessWidget {
         ),
       ),
       // ignore: deprecated_member_use
-      child: FlatButton(
+      child: TextButton(
         onPressed: () => press(),
         child: Text(
           text,

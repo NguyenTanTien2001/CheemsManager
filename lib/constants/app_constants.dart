@@ -48,9 +48,9 @@ class AppConstants {
   ];
 
   static const List<String> kStatisticTitle = [
-    'To_do_Tasks',
-    'Quick_Notes',
-    'Check_Lists',
+    'To do Tasks',
+    'Quick Notes',
+    'Check Lists',
   ];
 
   static const List<String> kSplashDescription = [

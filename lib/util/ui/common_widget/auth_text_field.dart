@@ -82,13 +82,21 @@ class _AuthTextFieldState extends State<AuthTextField> {
               height: 19.7 / 16,
             ),
             suffixIcon: widget.isPassword
-                ? Icon(
-                    Icons.visibility_outlined,
-                    color: AppColors.kLightText,
-                  ).inkTap(
-                    onTap: togglePasswordView,
-                    borderRadius: BorderRadius.circular(100),
-                  )
+                ? isShow
+                    ? Icon(
+                        Icons.visibility_outlined,
+                        color: AppColors.kLightText,
+                      ).inkTap(
+                        onTap: togglePasswordView,
+                        borderRadius: BorderRadius.circular(100),
+                      )
+                    : Icon(
+                        Icons.visibility_off_outlined,
+                        color: AppColors.kLightText,
+                      ).inkTap(
+                        onTap: togglePasswordView,
+                        borderRadius: BorderRadius.circular(100),
+                      )
                 : null,
           ),
         ),

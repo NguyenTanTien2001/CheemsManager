@@ -203,19 +203,16 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
       child: Row(
         children: [
           CountTaskItem(
-            text:
-                StringTranslateExtension(AppConstants.kStatisticTitle[0]).tr(),
+            text: AppConstants.kStatisticTitle[0],
             task: taskLength,
           ).pad(0, 10, 0),
           CountTaskItem(
-            text:
-                StringTranslateExtension(AppConstants.kStatisticTitle[1]).tr(),
+            text: AppConstants.kStatisticTitle[1],
             task: noteLength,
             color: AppColors.kSplashColor[1],
           ).pad(0, 10, 0),
           CountTaskItem(
-            text:
-                StringTranslateExtension(AppConstants.kStatisticTitle[2]).tr(),
+            text: AppConstants.kStatisticTitle[2],
             task: checkListLength,
             color: AppColors.kSplashColor[2],
           ),
@@ -252,24 +249,21 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
                 ratio: taskLength == 0
                     ? 0
                     : taskSuccessfulLength / taskLength * 100,
-                title: StringTranslateExtension(AppConstants.kStatisticTitle[0])
-                    .tr(),
+                title: AppConstants.kStatisticTitle[0],
               ),
               StatisticIcon(
                 color: AppColors.kSplashColor[1],
                 ratio: noteLength == 0
                     ? 0
                     : noteSuccessfulLength / noteLength * 100,
-                title: StringTranslateExtension(AppConstants.kStatisticTitle[1])
-                    .tr(),
+                title: AppConstants.kStatisticTitle[1],
               ),
               StatisticIcon(
                 color: AppColors.kSplashColor[2],
                 ratio: checkListLength == 0
                     ? 0
                     : checkListSuccessfulLength / checkListLength * 100,
-                title: StringTranslateExtension(AppConstants.kStatisticTitle[2])
-                    .tr(),
+                title: AppConstants.kStatisticTitle[2],
               )
             ],
           )
