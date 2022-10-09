@@ -51,6 +51,9 @@ class InForm extends StatelessWidget {
                   ),
                 )
                 .toList(),
+            validator: (val) => val!.id.isNotEmpty
+                ? null
+                : StringTranslateExtension(AppStrings.pleaseChooseProject).tr(),
             onChanged: (value) => press(value),
             decoration: InputDecoration(
               border: InputBorder.none,

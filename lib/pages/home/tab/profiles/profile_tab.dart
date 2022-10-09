@@ -161,7 +161,6 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
   Widget buildCardInfo() {
     return Container(
       width: screenWidth,
-      height: 190.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.r),
         color: Colors.white,
@@ -170,16 +169,6 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
       child: StreamBuilder<infoStatus>(
         stream: getVm().bsInfoStatus,
         builder: (context, snapshot) {
-          if (snapshot.data == infoStatus.setting) {
-            return SettingCard(
-              pressToProfile: () => getVm().changeInfoStatus(infoStatus.info),
-              pressSignOut: () {
-                getVm().signOut();
-                Get.offAndToNamed(AppRoutes.SIGN_IN);
-              },
-              pressUploadAvatar: getVm().uploadAvatar,
-            );
-          }
           return ProfileInfo(
             user: localUser!,
             press: () => getVm().changeInfoStatus(infoStatus.setting),
@@ -187,6 +176,12 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
             completedTask: noteSuccessfulLength +
                 checkListSuccessfulLength +
                 taskSuccessfulLength,
+            pressToProfile: () => getVm().changeInfoStatus(infoStatus.info),
+            pressSignOut: () {
+              getVm().signOut();
+              Get.offAndToNamed(AppRoutes.SIGN_IN);
+            },
+            pressUploadAvatar: getVm().uploadAvatar,
           );
         },
       ),

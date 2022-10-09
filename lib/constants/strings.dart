@@ -83,7 +83,7 @@ class AppStrings {
   /// [Home]
   static const String myTask = 'my_task';
   static const String project = 'Project';
-  static const String myNote  = 'My Note';
+  static const String myNote = 'My Note';
   static const String profile = 'profile';
   static const String backToLogin = 'back_to_login';
 
@@ -126,7 +126,7 @@ class AppStrings {
   /// [Home] [My Task]
   static const String workList = 'work_list';
   static const String today = 'today';
-  static const String timeline  = 'Timeline';
+  static const String timeline = 'Timeline';
   static const kMonthHeader = <String>[
     "january",
     "february",
@@ -188,4 +188,6 @@ class AppStrings {
   static const String loading = 'loading';
   static const String somethingWentWrong = 'something_went_wrong';
   static const String pleaseEnterYourText = 'please_enter_your_text';
+  static const String pleaseChooseProject = 'please_choose_project';
+  static const String pleaseSelectDate = 'please_select_date';
 }
