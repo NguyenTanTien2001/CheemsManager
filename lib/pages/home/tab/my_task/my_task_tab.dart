@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/project_model.dart';
-import 'widgets/list_card.dart';
-import '/models/to_do_date_model.dart';
-import '/util/ui/common_widget/calendar.dart';
-import '/constants/constants.dart';
 
 import '/base/base_state.dart';
+import '/constants/constants.dart';
+import '/models/task_model.dart';
+import '/models/to_do_date_model.dart';
 import '/pages/home/tab/my_task/my_task_vm.dart';
 import '/util/extension/widget_extension.dart';
-import '/models/task_model.dart';
+import '/util/ui/common_widget/calendar.dart';
 import 'my_task_provider.dart';
 import 'widgets/filter_button.dart';
+import 'widgets/list_card.dart';
 import 'widgets/to_day_switch.dart';
 
 class MyTaskTab extends StatefulWidget {
@@ -65,6 +65,7 @@ class MyTaskState extends BaseState<MyTaskTab, MyTaskViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.kPrimaryBackground,
       body: buildBody(),
       appBar: buildAppBar(),
     );

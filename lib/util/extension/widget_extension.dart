@@ -436,7 +436,7 @@ extension AppBarBuilderExtension on String {
         .plain()
         .color(color)
         .weight(FontWeight.bold)
-        .fSize(20)
+        .fSize(24)
         .weight(FontWeight.w600)
         .b());
   }

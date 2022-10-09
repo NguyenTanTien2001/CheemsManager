@@ -58,7 +58,9 @@ class ListCard extends StatelessWidget {
               children: [
                 toDateString(statusDataAndMode[i].dueDate)
                     .plain()
-                    .color(AppColors.kGrayTextA)
+                    .color(AppColors.kGrayTextC)
+                    .fSize(13.0)
+                    .weight(FontWeight.w600)
                     .b()
                     .pad(20, 0, 24, 10),
                 TaskCard(task: statusDataAndMode[i]),

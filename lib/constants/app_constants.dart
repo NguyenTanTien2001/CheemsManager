@@ -26,7 +26,7 @@ class AppConstants {
   static const kAnimationDuration = Duration(milliseconds: 200);
   static const double kDefaultBorderRadius = 5;
   static const kLengthSplash = 3;
-  static const kWeekHeader = <String>["M", "T", "W", "T", "F", "S", "S"];
+  static const kWeekHeader = <String>["Mon", "Tue", "Web", "Thu", "Fri", "Sat", "Sun"];
   static const kMonthHeader = <String>[
     "January",
     "February",

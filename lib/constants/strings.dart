@@ -82,8 +82,8 @@ class AppStrings {
 
   /// [Home]
   static const String myTask = 'my_task';
-  static const String menu = 'menu';
-  static const String quick = 'quick';
+  static const String project = 'Project';
+  static const String myNote  = 'My Note';
   static const String profile = 'profile';
   static const String backToLogin = 'back_to_login';
 
@@ -126,7 +126,7 @@ class AppStrings {
   /// [Home] [My Task]
   static const String workList = 'work_list';
   static const String today = 'today';
-  static const String month = 'month';
+  static const String timeline  = 'Timeline';
   static const kMonthHeader = <String>[
     "january",
     "february",

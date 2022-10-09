@@ -1,14 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:to_do_list/constants/app_constants.dart';
 import 'package:to_do_list/models/quick_note_model.dart';
 import 'package:to_do_list/constants/constants.dart';
 import 'package:to_do_list/pages/home/tab/profiles/widgets/count_task_item.dart';
 import 'package:to_do_list/pages/home/tab/profiles/widgets/statistic_item.dart';
 import 'package:to_do_list/routing/app_routes.dart';
 
+import '../../../../models/project_model.dart';
 import '/base/base_state.dart';
-import '/constants/app_colors.dart';
 import '/util/extension/dimens.dart';
 import '/util/extension/widget_extension.dart';
 import 'profile_provider.dart';
@@ -18,14 +17,14 @@ import 'widgets/setting_card.dart';
 
 class ProfileTab extends StatefulWidget {
   final ScopedReader watch;
-
-  static Widget instance() {
+  final ProjectModel? mode;
+  static Widget instance({ProjectModel? mode}) {
     return Consumer(builder: (context, watch, _) {
-      return ProfileTab._(watch);
+      return ProfileTab._(watch, mode);
     });
   }
 
-  const ProfileTab._(this.watch);
+  const ProfileTab._(this.watch, this.mode);
 
   @override
   State<StatefulWidget> createState() {
@@ -125,6 +124,7 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.kPrimaryBackground,
       body: localUser == null ? 'Loading'.desc() : buildBody(),
       appBar: buildAppBar(),
     );
@@ -133,7 +133,7 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
   Widget buildBody() {
     return Container(
       child: Container(
-        color: Colors.white,
+        color: AppColors.kPrimaryBackground,
         height: screenHeight,
         width: screenWidth,
         child: SingleChildScrollView(
@@ -155,7 +155,7 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
   AppBar buildAppBar() => StringTranslateExtension('profiles')
       .tr()
       .plainAppBar(color: AppColors.kText)
-      .backgroundColor(Colors.white)
+      .backgroundColor(AppColors.kPrimaryBackground)
       .bAppBar();
 
   Widget buildCardInfo() {
