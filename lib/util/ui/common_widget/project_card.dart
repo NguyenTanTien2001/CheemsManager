@@ -24,7 +24,7 @@ class ProjectCard extends StatelessWidget {
       height: 180.w,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(5.r),
+        borderRadius: BorderRadius.circular(10.r),
         boxShadow: [
           BoxShadow(
             offset: Offset(5, 10),

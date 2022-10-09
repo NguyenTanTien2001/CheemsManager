@@ -36,7 +36,7 @@ class QuickNoteCard extends StatelessWidget {
             blurRadius: 5,
           ),
         ],
-        borderRadius: BorderRadius.circular(3.r),
+        borderRadius: BorderRadius.circular(10.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +73,7 @@ class QuickNoteCard extends StatelessWidget {
                       )
                           .inkTap(
                             onTap: () => checkedPress(note, i),
-                            borderRadius: BorderRadius.circular(5.w),
+                            borderRadius: BorderRadius.circular(10.w),
                           )
                           .pad(0, 0, 0, 16),
                     SizedBox(height: 18.w)
@@ -112,7 +112,7 @@ class QuickNoteCard extends StatelessWidget {
           width: 12.w,
           height: 12.w,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3.w),
+            borderRadius: BorderRadius.circular(10.w),
             color: check ? AppColors.kInnerBorder : Colors.white,
             border: Border.all(
               color: AppColors.kInnerBorder,

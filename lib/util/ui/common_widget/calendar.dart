@@ -1,144 +1,135 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:to_do_list/models/task_model.dart';
+
+import '/constants/constants.dart';
 import '/models/to_do_date_model.dart';
 import '/util/extension/extension.dart';
 
-import '/constants/constants.dart';
+class Calendar extends StatefulWidget {
+  const Calendar({
+    Key? key,
+    required this.getListTask,
+    required this.data,
+  }) : super(key: key);
 
-class Calendar extends StatelessWidget {
-  const Calendar(
-      {Key? key,
-      this.isFullMonth = true,
-      required this.press,
-      required this.list})
-      : super(key: key);
+  final List<TaskModel> data;
+  final Function getListTask;
 
-  final bool isFullMonth;
-  final Function press;
-  final List<ToDoDateModel> list;
+  @override
+  State<Calendar> createState() => _CalendarState();
+}
+
+class _CalendarState extends State<Calendar> {
+  final ToDoDateModel toDoDateModel = ToDoDateModel();
+  CalendarFormat format = CalendarFormat.month;
+  DateTime focusedDay = DateTime.now();
+  var selectedDay;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      toDoDateModel.copyWith(
+          focusedDay: DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
+          format: CalendarFormat.month);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screenWidth,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 2),
-            blurRadius: 10,
-            color: AppColors.kBoxShadowMonth,
-          )
-        ],
-      ),
-      child: Column(
-        children: [
-          buildTitle(),
-          buildHeader(),
-          SizedBox(height: 13.w),
-          isFullMonth ? buildMonth() : buildWeek(),
-          SizedBox(height: isFullMonth ? 22.w.w : 5.w),
-        ],
-      ),
-    );
-  }
-
-  Widget buildTitle() => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          (AppStrings.kMonthHeader[DateTime.now().month - 1].tr() +
-                  ' ' +
-                  DateTime.now().year.toString())
-              .plain()
-              .weight(FontWeight.bold)
-              .fSize(14)
-              .b()
-              .pad(16, 0),
-          IconButton(
-            onPressed: () => press(!isFullMonth),
-            icon: Icon(
-              !isFullMonth
-                  ? Icons.keyboard_arrow_down_rounded
-                  : Icons.keyboard_arrow_up_rounded,
-            ),
-          )
-        ],
-      );
-
-  Widget buildHeader() => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for (int i = 0; i < AppConstants.kWeekHeader.length; i++)
-            SizedBox(
-              width: 20.w,
-              child: AppConstants.kWeekHeader[i].plain().b().center(),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.r),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.KBoxShadowCard,
+              offset: Offset(5, 5),
+              blurRadius: 12,
             )
-        ],
-      );
-
-  Widget buildWeek() {
-    DateTime now = DateTime.now();
-    int indexNow = 0;
-    for (int i = 0; i < list.length; i++) {
-      if (now.day == list[i].day.day &&
-          now.month == list[i].day.month &&
-          now.year == list[i].day.year) {
-        indexNow = i;
-        break;
-      }
-    }
-
-    int indexStart = indexNow ~/ 7 * 7;
-    int indexEnd = (indexNow ~/ 7 + 1) * 7;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        for (int i = indexStart; i < indexEnd; i++) buildDateItem(list[i]),
-      ],
-    );
-  }
-
-  Widget buildMonth() {
-    return Column(
-      children: [
-        for (int i = 0; i < list.length / 7; i++)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              for (int j = i * 7; j < i * 7 + 7; j++) buildDateItem(list[j]),
-            ],
-          )
-      ],
-    );
-  }
-
-  Widget buildDateItem(ToDoDateModel toDoDateModel) => SizedBox(
-        width: 20.w,
-        child: Column(
-          children: [
-            toDoDateModel.day.day
-                .toString()
-                .plain()
-                .color(toDoDateModel.isMonth
-                    ? AppColors.kText
-                    : AppColors.kGrayTextC)
-                .fSize(14)
-                .b()
-                .center(),
-            SizedBox(height: 11.w),
-            Container(
-              width: 5.w,
-              height: 5.w,
-              decoration: BoxDecoration(
-                color: toDoDateModel.isTask
-                    ? AppColors.kPrimaryColor
-                    : Colors.white,
-                borderRadius: BorderRadius.circular(5.r),
-              ),
-            ),
-            SizedBox(height: 12.w),
           ],
         ),
-      );
+        child: TableCalendar<TaskModel>(
+          firstDay: DateTime.parse('${DateTime.now().year - 100}-01-04'),
+          lastDay: DateTime.parse('${DateTime.now().year + 100}-11-04'),
+          focusedDay: this.focusedDay,
+          calendarFormat: format,
+          startingDayOfWeek: StartingDayOfWeek.monday,
+          calendarStyle: CalendarStyle(
+              weekendTextStyle: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'AvenirNextRoundedPro'),
+              defaultTextStyle: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'AvenirNextRoundedPro')),
+          daysOfWeekStyle: DaysOfWeekStyle(
+              weekdayStyle: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'AvenirNextRoundedPro'),
+              weekendStyle: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'AvenirNextRoundedPro')),
+          headerStyle: HeaderStyle(
+            //formatButtonVisible: true,
+            formatButtonShowsNext: false,
+          ),
+          onFormatChanged: (format) {
+            if (this.format != format) {
+              setState(() {
+                this.format = format;
+              });
+              //toDoDateModel.copyWith(format: format);
+            }
+          },
+          selectedDayPredicate: (day) {
+            if (this.selectedDay == null) return false;
+            return isSameDay(this.selectedDay, day);
+          },
+          onDaySelected: (selectedDay, focusedDay) {
+            if(isSameDay(this.selectedDay, selectedDay)){
+              setState(() {
+                this.selectedDay = null;
+              });
+            } else {
+              setState(() {
+                this.selectedDay = selectedDay;
+                this.focusedDay = focusedDay;
+              });
+            }
+
+            widget.getListTask(selectedDay);
+          },
+          eventLoader: _getEventForDay,
+        )
+        // child: Column(
+        //   children: [
+        //     buildTitle(),
+        //     buildHeader(),
+        //     SizedBox(height: 13.w),
+        //     isFullMonth ? buildMonth() : buildWeek(),
+        //     SizedBox(height: isFullMonth ? 22.w.w : 5.w),
+        //   ],
+        // ),
+        );
+  }
+
+  List<TaskModel> _getEventForDay(DateTime day){
+    List<TaskModel> data = [];
+    widget.data.forEach((element) {
+      var dayElement = element.startDate;
+      if(dayElement.year == day.year && dayElement.month == day.month && dayElement.day == day.day)
+        data.add(element);
+    });
+
+    return data;
+  }
+
+
 }

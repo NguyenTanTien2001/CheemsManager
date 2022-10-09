@@ -1,20 +1,20 @@
-import '/models/to_do_date_model.dart';
+
 import '/base/base_view_model.dart';
 import '/models/task_model.dart';
 
 class MyTaskViewModel extends BaseViewModel {
   BehaviorSubject<bool> bsIsToDay = BehaviorSubject<bool>.seeded(true);
-  BehaviorSubject<bool> bsFullMonth = BehaviorSubject<bool>.seeded(false);
+  BehaviorSubject bsIsSelectedDay = BehaviorSubject<DateTime?>.seeded(null);
   BehaviorSubject<taskDisplayStatus> bsTaskDisplayStatus =
       BehaviorSubject<taskDisplayStatus>.seeded(taskDisplayStatus.allTasks);
   BehaviorSubject<List<TaskModel>?> bsListTask =
       BehaviorSubject<List<TaskModel>>();
 
-  BehaviorSubject<List<ToDoDateModel>> bsToDoDate =
-      BehaviorSubject<List<ToDoDateModel>>.seeded([]);
+  // BehaviorSubject<List<ToDoDateModel>> bsToDoDate =
+  //     BehaviorSubject<List<ToDoDateModel>>.seeded([]);
 
   MyTaskViewModel(ref) : super(ref) {
-    initListDate();
+    //initListDate();
 
     if (user != null) {
       firestoreService.taskStream().listen((event) {
@@ -24,61 +24,75 @@ class MyTaskViewModel extends BaseViewModel {
           if (task.idAuthor == user!.uid ||
               task.listMember.contains(user!.uid)) {
             listData.add(task);
-            setTaskDate(task);
+            //setTaskDate(task);
           }
         }
-        listData.sort((a, b) => a.dueDate.compareTo(b.dueDate));
+        listData.sort((a, b) => a.startDate.compareTo(b.startDate));
         bsListTask.add(listData);
       });
     }
   }
 
-  void initListDate() {
-    DateTime startDate = DateTime.now();
-    DateTime endDate = startDate;
+  // void initListDate() {
+  //   DateTime startDate = DateTime.now();
+  //   DateTime endDate = startDate;
+  //
+  //   while (DateTime.now().month == startDate.month || startDate.weekday != 1) {
+  //     startDate = startDate.subtract(const Duration(days: 1));
+  //   }
+  //
+  //   while (DateTime.now().month == endDate.month || endDate.weekday != 7) {
+  //     endDate = endDate.add(const Duration(days: 1));
+  //   }
+  //
+  //   List<ToDoDateModel> list = [];
+  //
+  //   startDate = startDate.subtract(const Duration(days: 1));
+  //   while (startDate != endDate) {
+  //     startDate = startDate.add(const Duration(days: 1));
+  //     list.add(
+  //       new ToDoDateModel(
+  //           day: startDate, isMonth: DateTime.now().month == startDate.month),
+  //     );
+  //   }
+  //   bsToDoDate.add(list);
+  // }
 
-    while (DateTime.now().month == startDate.month || startDate.weekday != 1) {
-      startDate = startDate.subtract(const Duration(days: 1));
-    }
-
-    while (DateTime.now().month == endDate.month || endDate.weekday != 7) {
-      endDate = endDate.add(const Duration(days: 1));
-    }
-
-    List<ToDoDateModel> list = [];
-
-    startDate = startDate.subtract(const Duration(days: 1));
-    while (startDate != endDate) {
-      startDate = startDate.add(const Duration(days: 1));
-      list.add(
-        new ToDoDateModel(
-            day: startDate, isMonth: DateTime.now().month == startDate.month),
-      );
-    }
-    bsToDoDate.add(list);
-  }
-
-  void setTaskDate(TaskModel task) {
-    List<ToDoDateModel> list = bsToDoDate.value;
-    for (ToDoDateModel taskDate in list) {
-      if (task.dueDate.day == taskDate.day.day &&
-          task.dueDate.month == taskDate.day.month &&
-          task.dueDate.year == taskDate.day.year) {
-        taskDate.isTask = true;
-      }
-    }
-  }
+  // void setTaskDate(TaskModel task) {
+  //   List<ToDoDateModel> list = bsToDoDate.value;
+  //   for (ToDoDateModel taskDate in list) {
+  //     if (task.dueDate.day == taskDate.day.day &&
+  //         task.dueDate.month == taskDate.day.month &&
+  //         task.dueDate.year == taskDate.day.year) {
+  //       taskDate.isTask = true;
+  //     }
+  //   }
+  // }
 
   setToDay(bool value) {
     bsIsToDay.add(value);
   }
 
-  setFullMonth(bool value) {
-    bsFullMonth.add(value);
+  setSelectedDay(var value) {
+    bsIsSelectedDay.add(value);
   }
 
   setTaskDisplay(taskDisplayStatus status) {
     bsTaskDisplayStatus.add(status);
+  }
+
+
+  List<TaskModel> getTaskListBySelectedDay({DateTime? selectedDay, required List<TaskModel> data}){
+    if(selectedDay == null)  return data;
+
+    List<TaskModel> dataTemp = [];
+    data.forEach((element) {
+      var dayElement = element.startDate;
+      if(dayElement.year == selectedDay.year && dayElement.month == selectedDay.month && dayElement.day == selectedDay.day)
+        dataTemp.add(element);
+    });
+
+    return dataTemp;
   }
 
   void signOut() {
@@ -88,7 +102,7 @@ class MyTaskViewModel extends BaseViewModel {
   @override
   void dispose() {
     bsIsToDay.close();
-    bsFullMonth.close();
+    bsIsSelectedDay.close();
     bsTaskDisplayStatus.close();
     bsListTask.close();
     super.dispose();

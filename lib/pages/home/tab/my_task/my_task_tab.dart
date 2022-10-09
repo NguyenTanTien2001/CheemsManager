@@ -4,7 +4,6 @@ import 'package:to_do_list/models/project_model.dart';
 import '/base/base_state.dart';
 import '/constants/constants.dart';
 import '/models/task_model.dart';
-import '/models/to_do_date_model.dart';
 import '/pages/home/tab/my_task/my_task_vm.dart';
 import '/util/extension/widget_extension.dart';
 import '/util/ui/common_widget/calendar.dart';
@@ -36,7 +35,7 @@ class MyTaskTab extends StatefulWidget {
 
 class MyTaskState extends BaseState<MyTaskTab, MyTaskViewModel> {
   bool isToDay = true;
-  bool isFullMonth = true;
+  var isSelectedDay;
   taskDisplayStatus taskStatus = taskDisplayStatus.allTasks;
 
   @override
@@ -49,9 +48,9 @@ class MyTaskState extends BaseState<MyTaskTab, MyTaskViewModel> {
       });
     });
 
-    getVm().bsFullMonth.listen((value) {
+    getVm().bsIsSelectedDay.listen((value) {
       setState(() {
-        isFullMonth = value;
+        isSelectedDay = value;
       });
     });
 
@@ -85,8 +84,8 @@ class MyTaskState extends BaseState<MyTaskTab, MyTaskViewModel> {
     );
   }
 
-  Widget buildMonth() => StreamBuilder<List<ToDoDateModel>>(
-      stream: getVm().bsToDoDate,
+  Widget buildMonth() => StreamBuilder<List<TaskModel>?>(
+      stream: getVm().bsListTask,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return AppStrings.somethingWentWrong.text12().tr().center();
@@ -96,12 +95,13 @@ class MyTaskState extends BaseState<MyTaskTab, MyTaskViewModel> {
           return AppStrings.loading.text12().tr().center();
         }
 
+        List<TaskModel> data = snapshot.data!;
+
         return Calendar(
-          isFullMonth: isFullMonth,
-          press: getVm().setFullMonth,
-          list: snapshot.data!,
-        );
-      });
+          getListTask: getVm().setSelectedDay,
+          data: data,
+        ).pad(18, 18, 24, 0);
+      },);
 
   Widget buildToDaySwitch() => ToDaySwitch(
         isToDay: isToDay,
@@ -125,7 +125,7 @@ class MyTaskState extends BaseState<MyTaskTab, MyTaskViewModel> {
           List<TaskModel> data = snapshot.data!;
 
           return ListCard(
-            data: data,
+            data: getVm().getTaskListBySelectedDay(selectedDay: this.isSelectedDay, data: data),
             status: taskStatus,
             mode: widget.mode,
           );
@@ -163,6 +163,8 @@ class MyTaskState extends BaseState<MyTaskTab, MyTaskViewModel> {
       ],
     ).bAppBar();
   }
+
+
 
   @override
   MyTaskViewModel getVm() => widget.watch(viewModelProvider).state;

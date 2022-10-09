@@ -163,7 +163,7 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
       width: screenWidth,
       height: 190.w,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.r),
+        borderRadius: BorderRadius.circular(10.r),
         color: Colors.white,
         boxShadow: AppConstants.kBoxShadow,
       ),
@@ -227,7 +227,7 @@ class ProfileState extends BaseState<ProfileTab, ProfileViewModel> {
       height: 205.w,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(5.r),
+        borderRadius: BorderRadius.circular(10.r),
         boxShadow: AppConstants.kBoxShadow,
       ),
       child: Column(
