@@ -117,5 +117,7 @@
     "please_enter_your_text": "Please enter your text",
     "back_to_login" : "You are not logged in. Back to login",
     "Language" : "Language",
-    "Change_avatar" : "Change avatar"
+    "Change_avatar" : "Change avatar",
+    "please_choose_project": "Please choose project",
+    "please_select_date": "Please select date"
 }
