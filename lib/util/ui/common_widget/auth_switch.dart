@@ -37,9 +37,10 @@ class AuthSwitch extends StatelessWidget {
             .tr()
             .inkTap(
           onTap: () {
-            Get.offAndToNamed(
-              auth == authCase.toSignIn ? AppRoutes.SIGN_IN : AppRoutes.SIGN_UP,
-            );
+            if (auth == authCase.toSignIn)
+              Get.offAndToNamed(AppRoutes.SIGN_IN);
+            else
+              Get.toNamed(AppRoutes.SIGN_UP);
           },
         ),
       ],

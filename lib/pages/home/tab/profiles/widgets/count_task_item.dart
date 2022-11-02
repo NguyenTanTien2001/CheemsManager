@@ -24,7 +24,7 @@ class CountTaskItem extends StatelessWidget {
       height: 100.w,
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(5.r),
+        borderRadius: BorderRadius.circular(10.r),
         boxShadow: AppConstants.kBoxShadow,
       ),
       child: Column(

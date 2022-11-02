@@ -15,14 +15,14 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(3.r),
+        borderRadius: BorderRadius.circular(10.r),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: AppColors.KBoxShadowCard,
             offset: Offset(5, 5),
-            blurRadius: 9,
-          )
+            blurRadius: 12,
+          ),
         ],
       ),
       child: Row(
@@ -42,10 +42,10 @@ class TaskCard extends StatelessWidget {
               children: [
                 task.title
                     .plain()
-                    .fSize(16)
+                    .fSize(18)
                     .lines(1)
                     .overflow(TextOverflow.ellipsis)
-                    .weight(FontWeight.w500)
+                    .weight(FontWeight.w600)
                     .b(),
                 SizedBox(height: 4.w),
                 toTimeString(task.dueDate)

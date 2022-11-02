@@ -45,6 +45,7 @@ class SignInState extends BaseState<SignInPage, SignInViewModel> {
   }
 
   Future<void> signInClick() async {
+    print(passwordController.text);
     if (formKey.currentState!.validate()) {
       getVm().login(emailController.text, passwordController.text);
     }

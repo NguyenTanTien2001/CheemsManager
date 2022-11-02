@@ -10,7 +10,6 @@
     "task_and_assign_them_to_colleagues":"Task and assign them to colleagues.",
     "welcome_back": "Welcome back",
     "sign_in": "Sign in",
-    "sign_out": "Sign out",
     "sign_in_to_continue": "Sign in to continue",
     "please_enter_a_email_address":"Please enter a email address",
     "username": "Username",
@@ -99,7 +98,7 @@
     "home": "Home",
     "meet": "Meet",
     "my_task": "My Task",
-    "menu": "Project",
+    "menu": "Menu",
     "quick": "Quick",
     "quick_notes": "Quick Notes",
     "home_work_today": "Home work today",
@@ -119,9 +118,6 @@
     "back_to_login" : "You are not logged in. Back to login",
     "Language" : "Language",
     "Change_avatar" : "Change avatar",
-    "gallery": "Gallery",
-    "camera": "Camera",
-    "To_do_Tasks": "Công việc",
-    "Check_Lists": "Danh mục",
-    "Quick_Notes": "Lời nhắc"
+    "please_choose_project": "Please choose project",
+    "please_select_date": "Please select date"
 }

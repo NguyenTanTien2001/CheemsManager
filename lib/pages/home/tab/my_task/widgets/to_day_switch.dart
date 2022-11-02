@@ -25,7 +25,7 @@ class ToDaySwitch extends StatelessWidget {
         children: [
           buildItem(text: AppStrings.today.tr(), isChoose: isToDay)
               .inkTap(onTap: () => press(true)),
-          buildItem(text: AppStrings.month.tr(), isChoose: !isToDay)
+          buildItem(text: AppStrings.timeline.tr(), isChoose: !isToDay)
               .inkTap(onTap: () => press(false)),
         ],
       ),

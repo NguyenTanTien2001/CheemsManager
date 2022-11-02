@@ -6,7 +6,7 @@ class AppStrings {
   static const String getStarted = 'get_started';
   static const String logIn = 'login';
   static const List<String> splashTitle = [
-    'welcome_to_cheems',
+    'welcome_to_aking',
     'work_happens',
     'tasks_and_assign',
   ];
@@ -82,8 +82,8 @@ class AppStrings {
 
   /// [Home]
   static const String myTask = 'my_task';
-  static const String menu = 'menu';
-  static const String quick = 'quick';
+  static const String project = 'Project';
+  static const String myNote = 'My Note';
   static const String profile = 'profile';
   static const String backToLogin = 'back_to_login';
 
@@ -126,7 +126,7 @@ class AppStrings {
   /// [Home] [My Task]
   static const String workList = 'work_list';
   static const String today = 'today';
-  static const String month = 'month';
+  static const String timeline = 'Timeline';
   static const kMonthHeader = <String>[
     "january",
     "february",
@@ -165,7 +165,7 @@ class AppStrings {
   static const String deleteTask = 'delete_task';
 
   /// [Home] [Menu]
-  static const String projects = 'projects';
+  static const String projects = 'Projects';
 
   /// [Home] [Menu] [Add Button]
   static const String title = 'Title';
@@ -177,9 +177,6 @@ class AppStrings {
   /// [Home] [Profile]
   static const String profiles = 'profiles';
   static const String createTasks = 'create_tasks';
-  static const String signOut = 'sign_out';
-  static const String gallery = 'gallery';
-  static const String camera = 'camera';
   // completedTasks
   static const String events = 'events';
   static const String toDoTask = 'to_do_task';
@@ -191,4 +188,6 @@ class AppStrings {
   static const String loading = 'loading';
   static const String somethingWentWrong = 'something_went_wrong';
   static const String pleaseEnterYourText = 'please_enter_your_text';
+  static const String pleaseChooseProject = 'please_choose_project';
+  static const String pleaseSelectDate = 'please_select_date';
 }
